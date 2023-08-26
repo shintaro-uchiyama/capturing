@@ -1,39 +1,24 @@
 <script lang="ts">
+  import { faChevronRight, faPlus } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
-  import { faPlus, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-  import { bubble } from "svelte/internal";
 
-  let selectTypeRef: HTMLSelectElement;
+  let showSelectTypeOptions: boolean;
 
-  function onClickSelectAppearance(): void {
-    console.log("11111", selectTypeRef);
-    const selectedIndex = selectTypeRef.selectedIndex;
-    if (selectedIndex >= 0) {
-      selectTypeRef.selectedIndex = selectedIndex === 2 ? 0 : selectedIndex + 1;
-    }
-  }
+  const onClickSelectType = () => {
+    showSelectTypeOptions = true;
+  };
 </script>
 
 <div class="wrapper">
   <div class="container">
     <div class="new">
-      <span>
-        <Fa icon={faPlus} size="sm" />
-      </span>
+      <Fa icon={faPlus} size="sm" />
       <span class="new-text"> New </span>
     </div>
     <div class="divider" />
     <div class="select-type">
-      <select
-        class="select-type-select"
-        bind:this={selectTypeRef}
-        id="testtest"
-      >
-        <option value="サンプル1">サンプル1</option>
-        <option value="サンプル2">サンプル2</option>
-        <option value="サンプル3">サンプル3</option>
-      </select>
-      <button class="select-appearance" on:click={onClickSelectAppearance}>
+      <div class="drag-range" />
+      <button class="select-appearance" on:click={onClickSelectType}>
         <Fa icon={faChevronRight} size="xs" rotate={90} />
       </button>
     </div>
@@ -61,7 +46,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 12px;
+    margin-left: 14px;
 
     cursor: pointer;
     width: 74px;
@@ -75,7 +60,7 @@
   }
 
   .divider {
-    margin-left: 10px;
+    margin-left: 14px;
     height: 30px;
     width: 2px;
     background-color: #424242;
@@ -83,16 +68,23 @@
   }
 
   .select-type {
-    margin-left: 10px;
+    width: 80px;
+    height: 36px;
+    margin-left: 14px;
     padding-right: 8px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
   }
 
-  .select-type-select {
-    cursor: pointer;
+  .drag-range {
+    width: 22px;
+    height: 18px;
+    border: 1px dashed #fafafa;
+    border-radius: 2px;
   }
 
   .select-appearance {
-    margin-left: 5px;
+    margin-left: 12px;
   }
 </style>
