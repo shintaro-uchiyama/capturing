@@ -1,7 +1,11 @@
-# Tauri + Svelte + Typescript
+# Capturing
 
-This template should help get you started developing with Tauri, Svelte and TypeScript in Vite.
+キャプチャしてテキストと線が描けるツール
 
-## Recommended IDE Setup
+## 環境構築
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+以下コマンドでツール起動（Hot Reload付き）
+
+```zsh
+npm run tauri dev
+```
