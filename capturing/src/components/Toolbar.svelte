@@ -1,11 +1,38 @@
 <script lang="ts">
   import { faChevronRight, faPlus } from "@fortawesome/free-solid-svg-icons";
+  import { onMount } from "svelte";
   import Fa from "svelte-fa";
+  import { storedClickEvent } from "../store/click-store";
 
   let showSelectTypeOptions: boolean;
+  let popupLeft: number = 12;
+  let selectTypeRef: HTMLElement;
+  let lastMouseEvent: MouseEvent;
 
-  const onClickSelectType = () => {
+  onMount(() => {
+    const unsubscribe = storedClickEvent.subscribe((clickEvent) => {
+      if (
+        !(
+          lastMouseEvent &&
+          lastMouseEvent.timeStamp === clickEvent.timeStamp &&
+          lastMouseEvent.x === clickEvent.x &&
+          lastMouseEvent.y === clickEvent.y
+        ) &&
+        showSelectTypeOptions
+      ) {
+        showSelectTypeOptions = false;
+      }
+    });
+    return unsubscribe;
+  });
+
+  const onClickSelectType = (event: MouseEvent) => {
+    lastMouseEvent = event;
     showSelectTypeOptions = true;
+    const rect = selectTypeRef.getBoundingClientRect();
+    const left = rect.left;
+    popupLeft = left;
+    const bottom = rect.bottom;
   };
 </script>
 
@@ -16,13 +43,20 @@
       <span class="new-text"> New </span>
     </div>
     <div class="divider" />
-    <div class="select-type">
+    <div
+      class="select-type"
+      bind:this={selectTypeRef}
+      on:click={onClickSelectType}
+    >
       <div class="drag-range" />
-      <button class="select-appearance" on:click={onClickSelectType}>
+      <span class="select-appearance">
         <Fa icon={faChevronRight} size="xs" rotate={90} />
-      </button>
+      </span>
     </div>
   </div>
+  {#if showSelectTypeOptions}
+    <div class="sample" style="left: {popupLeft}px">tttttttt</div>
+  {/if}
 </div>
 
 <style>
@@ -86,5 +120,18 @@
 
   .select-appearance {
     margin-left: 12px;
+  }
+
+  .sample {
+    position: absolute;
+    top: 50px;
+    /** leftは動的に設定 */
+    width: 80px;
+    height: 80px;
+    background-color: var(--popup-bg-color);
+    z-index: 100;
+    border: 1px solid var(--popup-border-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
   }
 </style>
